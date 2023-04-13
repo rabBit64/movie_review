@@ -1,43 +1,120 @@
 {% extends 'base.html' %} 
 {% block title %}리뷰 작성{% endblock title %} 
 {% block style %}
+.back{
+  border: 1px lightgray solid;
+  border-radius:5px;
+  padding-right:15px;
+  padding-left:10px;
+}
+.back:hover{
+  border:1px black solid;
+}
+.back a{
+  color:black;
+}
+.review-button{
+  display:flex;
+}
+.delete-button{
+  background:transparent;
+  border:none;
+  color: var(--bs-link-color);
+  padding:0;
+  
+}
+.movie-img{
+  max-width:100%;
+}
+.h2:before, h2:before{
+  position:absolute;
+  content:"";
+  height:1.1em;
+  border-left: 3px solid #fa320a;
+  margin: 2px 0 0 -9px;  
+}
+.review-row{
+  background-color:#f3f3f3;
+  height:80px;
+  padding-top:8px;
+  width:100%;
+}
+#rotton-icon{
+  width:20px;
+}
+p#comment-date{
+  color:#757a84;
+  font-size:14px;
+  font-weight:45;
+  line-height: 14px;
+  padding-top: 20px;
+}
 {% endblock style %} 
 {% block body %}
-  {% if review.image %}
-    <img src="{{ review.image.url }}" alt="IMAGE">
-  {% else %}{% load static %}
-    <img src="{% static 'reviews/no-image.png' %}" alt="no-img">
-  {% endif %}
-  제목: {{ review.title }}<br>
-  작성자: {{ review.user }}<br>
-  영화: {{ review.movie }}<br>
-  내용: {{ review.content }}<br>
-  <a href="{% url 'reviews:index' %}">뒤로 가기</a>
-
-  {% if request.user == review.user %}
-  <a href="{% url 'reviews:update' review.pk %}">수정</a>
-  <form action="{% url 'reviews:delete' review.pk %}" method="POST">
-    {% csrf_token %}
-    <input type="submit" value="삭제">
-  </form>
-  {% endif %}
-  <hr>
+<div class="container">
+  <div class="row">
+    <div class="col-3 mt-3">
+      <button class="back"><a href="{% url 'reviews:index' %}"><i class="ri-arrow-left-line"></i>BACK</a></button>
+      <div class="movie-info mt-3">
+        {% if review.image %}
+        <img src="{{ review.image.url }}" alt="IMAGE" class="movie-img">
+        {% else %}{% load static %}
+          <img src="{% static 'reviews/no-image.png' %}" alt="no-img" class="movie-img">
+        {% endif %}
+        <b> 제목: {{ review.title }}<br></b>
+        작성자: <a href="#">{{ review.user }}</a><br>
+        영화: {{ review.movie }}<br>
+        내용: {{ review.content }}<br>
+      </div>
+      {% if request.user == review.user %}
+      <div class="review-button">
+        <a href="{% url 'reviews:update' review.pk %}">수정</a>&ensp;|&ensp; 
+        <form action="{% url 'reviews:delete' review.pk %}" method="POST">
+          {% csrf_token %}
+          <input type="submit" value="삭제" class="delete-button">
+        </form>
+      </div>
+      {% endif %}
+    </div>
+    <div class="col-1">
+    </div>
+    <div class="col-8 mt-4">
+      <h2>
+        {{review.movie}} REVIEWS 
+      </h2>
+      {% for comment in comments %}
+        <div class="row review-row">
+          <div class="reviewer col-2">
+            <b>{{ comment.user }}</b>
+          </div>
+          <div class="col-2">
+            <img rel = "review-icon" id="rotton-icon" src="https://upload.wikimedia.org/wikipedia/commons/5/5b/Rotten_Tomatoes.svg">
+          </div>
+          <div class="review-text col-7">
+            {{ comment.content }} <br>
+            <p id="comment-date">{{ comment.created_at }}</p>
+          </div>
+          <div class="col-1 mr-3">
+            {% if request.user == comment.user %}
+            <form action="{% url 'reviews:comment_delete' review.pk comment.pk %}" method="POST">
+              {% csrf_token %}
+              <input type="submit" value="delete" class="delete-button">
+            </form>
+          </div>
+        </div>
+        {% endif %}
+      {% endfor %}
   
-  {% for comment in comments %}
-    {{ comment.user }}: {{ comment.content }}
-    {% if request.user == comment.user %}
-      <form action="{% url 'reviews:comment_delete' review.pk comment.pk %}" method="POST">
+      <form action="{% url 'reviews:comment_create' review.pk %}" method="POST">
         {% csrf_token %}
-        <input type="submit" value="삭제">
+        {{ comment_form }}
+        <input type="submit" value="등록">
       </form>
-    {% endif %}
-  {% endfor %}
-
-  <form action="{% url 'reviews:comment_create' review.pk %}" method="POST">
-    {% csrf_token %}
-    {{ comment_form }}
-    <input type="submit" value="등록">
-  </form>
+    </div>
+  </div>
+</div>
+  
+  <hr>
   
 {% endblock body %} 
 {% block script %}
