@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block title %}회원정보{% endblock title %}
+{% block style %}{% endblock style %}
+{% block body %}
+<div class="container w-50 m-auto">
+  <h1 class="text-center">회원정보</h1>
+  {{ user.username }}<br>
+  {{ user.email }}<br>
+  <hr>
+  {% for review in reviews %}
+  제목: {{ review.title }}<br>
+  내용: {{ review.content }}
+  <hr>
+  {% endfor %}
+  <div class="d-flex justify-content-between">
+    <a href="{% url 'reviews:index' %}" class="btn btn-sm btn-outline-danger">뒤로가기</a>
+    <div>
+      <a href="{% url 'accounts:password' %}" class="btn btn-sm btn-outline-warning me-1">비밀번호 변경</a>
+      <a href="{% url 'accounts:update' %}" class="btn btn-sm btn-outline-primary">회원정보 수정</a>
+    </div>
+  </div>
+</div>
+{% endblock body %}
+{% block script %}{% endblock script %}
