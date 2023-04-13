@@ -3,7 +3,11 @@
 {% block style %}
 {% endblock style %} 
 {% block body %}
-
+  {% if review.image %}
+    <img src="{{ review.image.url }}" alt="IMAGE">
+  {% else %}{% load static %}
+    <img src="{% static 'reviews/no-image.png' %}" alt="no-img">
+  {% endif %}
   제목: {{ review.title }}<br>
   작성자: {{ review.user }}<br>
   영화: {{ review.movie }}<br>
