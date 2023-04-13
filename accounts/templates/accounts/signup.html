@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %}회원가입{% endblock title %}
+{% block style %}{% endblock style %}
+{% block body %}
+<div class="container w-75 m-auto">
+  <h1 class="text-center">회원가입</h1>
+  <form action="{% url 'accounts:signup' %}" method="POST">
+    {% csrf_token %}
+    {% include 'error.html' %}
+    {{ form.as_p }}
+    <input type="submit" value="회원가입">
+  </form>
+</div>
+{% endblock body %}
+{% block script %}{% endblock script %}
