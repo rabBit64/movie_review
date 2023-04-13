@@ -33,7 +33,7 @@ def signup(request):
     if request.user.is_authenticated:
         return redirect('reviews:index')
     if request.method == 'POST':
-        form = CustomUserCreationForm(request, request.POST)
+        form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             form.save()
             return redirect('reviews:index')
