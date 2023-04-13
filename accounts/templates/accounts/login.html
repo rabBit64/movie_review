@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %}로그인{% endblock title %}
+{% block style %}{% endblock style %}
+{% block body %}
+<div class="container w-50 m-auto">
+  <h1 class="text-center">로그인</h1>
+  <form action="{% url 'accounts:login' %}" method="POST">
+    {% csrf_token %}
+    {% include 'error.html' %}
+    {{ form.as_p }}
+    <input type="submit" value="로그인">
+  </form>
+</div>
+{% endblock body %}
+{% block script %}{% endblock script %}
