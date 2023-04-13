@@ -5,6 +5,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import update_session_auth_hash, get_user_model
 from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
 from .forms import CustomUserCreationForm, CustomUserChangeForm
+from .models import User
+from reviews.models import Review
 
 
 def login(request):
@@ -81,3 +83,13 @@ def password(request):
         'form': form,
     }
     return render(request, 'accounts/password.html', context)
+
+
+def profile(request, pk):
+    user = User.objects.get(pk=pk)
+    reviews = user.review_set.all()
+    context = {
+        'user': user,
+        'reviews': reviews,
+    }
+    return render(request, 'accounts/profile.html', context)
