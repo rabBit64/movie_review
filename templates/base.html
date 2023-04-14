@@ -26,12 +26,22 @@
     <div class="header-wrap">
       <img alt="Rotten Tomatoes" src="{% static 'logo2.png' %}" id="Rotten-logo">
       <ul id="account-button">
-        <li>
-          <button><a href=#>LOGIN</a></button>
-        </li>
-        <li>
-          <button><a href=#>SIGNUP</a></button>
-        </li>
+        {% if request.user.is_authenticated %}
+          <li id="login-user-name">
+            <a href="#"><h5> {{ user }}님 안녕하세요 </a>
+          </li>
+          <li id="login-user-logout">
+            <button><a href="{% url 'accounts:logout'%}">LOGOUT</a></button>
+          </li>
+        {% else %}
+          <li>
+            <button><a href="{% url 'accounts:login' %}">LOGIN</a></button>
+          </li>
+          <li>
+            <button><a href="{% url 'accounts:signup'%}">SIGNUP</a></button>
+          </li>
+          
+        {% endif %}
     </div>
     {% block body %}{% endblock body %}
       
