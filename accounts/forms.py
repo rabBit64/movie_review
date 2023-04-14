@@ -64,6 +64,33 @@ class CustomUserCreationForm(UserCreationForm):
 
 
 class CustomUserChangeForm(UserChangeForm):
+    email = forms.EmailField(
+        label='이메일',
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control',
+                'placeholder': '이메일',
+            }
+        )
+    )
+    first_name = forms.CharField(
+        label='이름',
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control',
+                'placeholder': '이름',
+            }
+        )
+    )
+    last_name = forms.CharField(
+        label='성',
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control',
+                'placeholder': '성',
+            }
+        )
+    )
     class Meta(UserChangeForm.Meta):
         model = get_user_model()
         fields = ('email', 'first_name', 'last_name',)
