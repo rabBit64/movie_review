@@ -47,8 +47,12 @@ p#comment-date{
   font-size:14px;
   font-weight:45;
   line-height: 14px;
-  padding-top: 20px;
+  {% comment %} padding-top: 20px; {% endcomment %}
 }
+.review-comment p{
+  word-wrap:break-word;
+}
+
 {% endblock style %} 
 {% block body %}
 <div class="container">
@@ -90,8 +94,9 @@ p#comment-date{
           <div class="col-2">
             <img rel = "review-icon" id="rotton-icon" src="https://upload.wikimedia.org/wikipedia/commons/5/5b/Rotten_Tomatoes.svg">
           </div>
-          <div class="review-text col-7">
-            {{ comment.content }} <br>
+          <div class="col-7 review-comment">
+            <!--comment-->
+            <p>{{ comment.content }}</p> <br>
             <p id="comment-date">{{ comment.created_at }}</p>
           </div>
           <div class="col-1 mr-3">
