@@ -1,5 +1,5 @@
 {% extends 'base.html' %} 
-{% block title %}리뷰 작성{% endblock title %} 
+{% block title %}리뷰{% endblock title %} 
 {% block style %}
 .back{
   border: 1px lightgray solid;
@@ -61,13 +61,17 @@ p#comment-date{
         {% else %}{% load static %}
           <img src="{% static 'reviews/no-image.png' %}" alt="no-img" class="movie-img">
         {% endif %}
-        <b> 제목: {{ review.title }}<br></b>
-        작성자: <a href="#">{{ review.user }}</a><br>
-        영화: {{ review.movie }}<br>
-        내용: {{ review.content }}<br>
+        <h3 class="text-center mt-1"><b>{{ review.title }}</b></h3>
+        <div class="d-flex justify-content-between mb-3">
+          <a href="{% url 'accounts:profile' review.user.pk %}" style="color: #000000;"><b>{{ review.user }}</b></a>
+          <span>{{ review.created_at|date:"Y-m-d" }}</span>
+        </div>
+        <div class="mb-3">
+          {{ review.content|linebreaks }}
+        </div>
       </div>
       {% if request.user == review.user %}
-      <div class="review-button">
+      <div class="review-button justify-content-end">
         <a href="{% url 'reviews:update' review.pk %}">수정</a>&ensp;|&ensp; 
         <form action="{% url 'reviews:delete' review.pk %}" method="POST">
           {% csrf_token %}
@@ -107,8 +111,10 @@ p#comment-date{
   
       <form action="{% url 'reviews:comment_create' review.pk %}" method="POST">
         {% csrf_token %}
-        {{ comment_form }}
-        <input type="submit" value="등록">
+        <div class="d-flex">
+          {{ comment_form.content }}
+          <input type="submit" value="등록" class="btn btn-danger ms-1">
+        </div>
       </form>
     </div>
   </div>
@@ -118,5 +124,8 @@ p#comment-date{
   
 {% endblock body %} 
 {% block script %}
+const content = document.getElementById('id_content')
+content.classList.add('form-control')
+content.placeholder = '댓글 작성하기'
 {% endblock script %}
   
