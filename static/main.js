@@ -112,9 +112,12 @@ arr.forEach(item=>item.addEventListener('mouseover', (event)=>{
 //     console.log(val_num)
 //   })
 // }))
-form.addEventListener('submit', (event) => {
-  event.preventDefault()
-  const val = event.target.id
-  const val_num  = getNumericValue(val)
-  console.log(val_num)
-})
+
+
+// form.addEventListener('submit', (event) => {
+//   event.preventDefault()
+//   const val = event.
+//   alert(val)
+//   const val_num  = getNumericValue(val)
+//   console.log(val_num)
+// })

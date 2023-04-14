@@ -99,8 +99,10 @@ p#comment-date{
       </h2>
       <form action="{% url 'reviews:comment_create' review.pk %}" method="POST" style="float:right; margin-right:10px; padding-bottom:5px;">
         {% csrf_token %}
-        {{ comment_form }}
-        <input type="submit" value="등록">
+        <div class="d-flex">
+          {{ comment_form.content }}
+          <input type="submit" value="등록" class="btn btn-danger ms-1">
+        </div>
       </form>
       {% for comment in comments %}
         <div class="row review-row">
@@ -114,7 +116,7 @@ p#comment-date{
             <!--comment-->
             <p>{{ comment.content }}</p> <br>
             <!--ranking-->
-            <form class="rate-form" action="" method="POST" id="{{ review.id }}">
+            <form class="rate-form" action="#" method="POST" id="{{ review.id }}">
               {% csrf_token %}
               <button type="submit" class="fa fa-star star-btn" id="first"></button>
               <button type="submit" class="fa fa-star star-btn" id="second"></button>
@@ -136,13 +138,6 @@ p#comment-date{
         {% endif %}
       {% endfor %}
   
-      <form action="{% url 'reviews:comment_create' review.pk %}" method="POST">
-        {% csrf_token %}
-        <div class="d-flex">
-          {{ comment_form.content }}
-          <input type="submit" value="등록" class="btn btn-danger ms-1">
-        </div>
-      </form>
     </div>
   </div>
 </div>

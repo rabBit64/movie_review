@@ -93,3 +93,15 @@ def comment_delete(request, review_pk, comment_pk):
     if request.user == comment.user:
         comment.delete()
     return redirect('reviews:detail', review_pk)
+
+
+
+@login_required
+def rating_form(request, review_pk):
+    if request.method=="POST":
+        rating = Rating()
+        rating.user = request.user
+        rating.review = review_pk
+        #rating 추가
+        rating.save()
+    return redirect('reviews:detail', review_pk)
