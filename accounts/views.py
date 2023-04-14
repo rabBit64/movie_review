@@ -15,6 +15,7 @@ def login(request):
     if request.method == 'POST':
         form = AuthenticationForm(request, request.POST)
         if form.is_valid():
+            print(request.user)
             auth_login(request, form.get_user())
             return redirect('reviews:index')
     else:
@@ -38,7 +39,7 @@ def signup(request):
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('reviews:index')
+            return redirect('accounts:login')
     else:
         form = CustomUserCreationForm()
     context = {
