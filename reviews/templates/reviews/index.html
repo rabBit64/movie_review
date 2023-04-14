@@ -24,19 +24,21 @@
       <div class="carousel-inner">
         
         {% for review in reviews %}
-        {% if forloop.counter0|divisibleby:6 %}
-          <div class="carousel-item {% if forloop.first %}active{% endif %}">
-            <div class="row">
-              {% endif %}
-              <div class="col-2 p-0">
-                <div class="card m-2">
-                  <a href="{% url 'reviews:detail' review.pk %}">
-                    <img src="{{ review.image.url }}" class="card-img-top" alt="{{ review.title }}">
-                  </a>
-                </div>
-                <a href="{% url 'reviews:detail' review.pk %}" class="text-dark">{{ review.movie }}</a>
-              </div>
-              {% if forloop.counter0|add:1|divisibleby:6 or forloop.last %}
+            {% if forloop.counter0|divisibleby:6 %}
+              <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                <div class="row">
+        {% endif %}
+        <div class="col-2 p-0">
+          <div class="card m-1   border-0">
+            <a href="{% url 'reviews:detail' review.pk %}">
+              <img src="{{ review.image.url }}" alt="{{ review.title }}" style="border-radius: 5px;">
+            </a>
+            <div class="card-body p-0">
+              <a href="{% url 'reviews:detail' review.pk %}" class="text-dark">{{ review.movie }}</a>
+            </div>
+          </div>
+        </div>
+        {% if forloop.counter0|add:1|divisibleby:6 or forloop.last %}
             </div>
           </div>
         {% endif %}
