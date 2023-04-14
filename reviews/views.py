@@ -14,14 +14,14 @@ def index(request):
 
 def detail(request, review_pk):
     review = Review.objects.get(pk=review_pk)
-    rating = Rating.objects.filter(rating=0).order_by("?").first()
+    # rating = Rating.objects.filter(rating=0).order_by("?").first()
     comment_form = CommentForm()
     comments = review.comment_set.all()
     context = {
         'review': review,
         'comment_form': comment_form,
         'comments': comments,
-        'rating':rating,
+        # 'rating':rating,
     }
     return render(request, 'reviews/detail.html', context)
 
@@ -94,3 +94,24 @@ def comment_delete(request, review_pk, comment_pk):
     if request.user == comment.user:
         comment.delete()
     return redirect('reviews:detail', review_pk)
+
+
+@login_required
+def comment_update(request, review_pk, comment_pk):
+    comment = Comment.objects.get(pk=comment_pk)
+    if request.user == comment.user:
+        if request.method == 'POST':
+            form = CommentForm(request.POST, instance=comment)
+            if form.is_valid():
+                form.save()
+                return redirect('reviews:detail', review_pk)
+        else:
+            form = CommentForm(instance=comment)
+        context = {
+            'comment_update_form': form,
+            'comment': comment,
+            'review_pk': review_pk,
+        }
+        return render(request, 'reviews/comment_update.html', context)
+    else:
+        return redirect('reviews:detail', review_pk)

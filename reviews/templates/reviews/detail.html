@@ -83,7 +83,7 @@ p#comment-date{
       </div>
       {% if request.user == review.user %}
       <div class="review-button justify-content-end">
-        <a href="{% url 'reviews:update' review.pk %}">수정</a>&ensp;|&ensp; 
+        <a href="{% url 'reviews:update' review.pk %}">수정</a>
         <form action="{% url 'reviews:delete' review.pk %}" method="POST">
           {% csrf_token %}
           <input type="submit" value="삭제" class="delete-button">
@@ -97,10 +97,12 @@ p#comment-date{
       <h2>
         {{review.movie}} REVIEWS 
       </h2>
-      <form action="{% url 'reviews:comment_create' review.pk %}" method="POST" style="float:right; margin-right:10px; padding-bottom:5px;">
+      <form action="{% url 'reviews:comment_create' review.pk %}" method="POST" class="mb-2">
         {% csrf_token %}
-        {{ comment_form }}
-        <input type="submit" value="등록">
+        <div class="d-flex">
+          {{ comment_form.content }}
+          <input type="submit" value="등록" class="btn btn-danger ms-1">
+        </div>
       </form>
       {% for comment in comments %}
         <div class="row review-row">
@@ -127,22 +129,30 @@ p#comment-date{
           </div>
           <div class="col-1 mr-3">
             {% if request.user == comment.user %}
+            <button type="button" data-bs-toggle="modal" data-bs-target="#update">수정</button>
             <form action="{% url 'reviews:comment_delete' review.pk comment.pk %}" method="POST">
               {% csrf_token %}
               <input type="submit" value="delete" class="delete-button">
             </form>
           </div>
         </div>
+        <div class="modal fade" id="update" tabindex="-1">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <form action="{% url 'reviews:comment_update' review.pk comment.pk %}" method="POST">
+                  {% csrf_token %}
+                  <div class="d-flex">
+                    {{ comment_update_form.content }}
+                    <input type="submit" value="수정">
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
         {% endif %}
       {% endfor %}
-  
-      <form action="{% url 'reviews:comment_create' review.pk %}" method="POST">
-        {% csrf_token %}
-        <div class="d-flex">
-          {{ comment_form.content }}
-          <input type="submit" value="등록" class="btn btn-danger ms-1">
-        </div>
-      </form>
     </div>
   </div>
 </div>
@@ -153,4 +163,3 @@ const content = document.getElementById('id_content')
 content.classList.add('form-control')
 content.placeholder = '댓글 작성하기'
 {% endblock script %}
-  
