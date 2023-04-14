@@ -1,8 +1,7 @@
 from django.db import models
 from django.conf import settings
-
-# Create your models here.
-
+from django.db.models import Avg
+from django.core.validators import MaxValueValidator,MinValueValidator
 
 class Review(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
@@ -14,6 +13,9 @@ class Review(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    # def average_rating(self) -> float:
+    #     return Rating.objects.filter(review=self).aggregate(Avg("rating"))["ranking_avg"] or 0
+
 
 class Comment(models.Model):
     review = models.ForeignKey(Review, on_delete=models.CASCADE)
@@ -22,3 +24,16 @@ class Comment(models.Model):
     content = models.CharField(max_length=200)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+
+class Rating(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE)
+    review = models.ForeignKey(Review, on_delete=models.CASCADE)
+    rating = models.IntegerField(default=0,
+        validators = [
+            MaxValueValidator(5),
+            MinValueValidator(0),
+        ]
+    )
+    def __self__(self):
+        return str(self.pk)

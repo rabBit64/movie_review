@@ -1,9 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from .models import Review, Comment
+from .models import Review, Comment, Rating
 from .forms import ReviewForm, CommentForm
-
-# Create your views here.
 
 
 def index(request):
@@ -16,12 +14,14 @@ def index(request):
 
 def detail(request, review_pk):
     review = Review.objects.get(pk=review_pk)
+    rating = Rating.objects.filter(rating=0).order_by("?").first()
     comment_form = CommentForm()
     comments = review.comment_set.all()
     context = {
         'review': review,
         'comment_form': comment_form,
         'comments': comments,
+        'rating':rating,
     }
     return render(request, 'reviews/detail.html', context)
 
