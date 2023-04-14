@@ -3,7 +3,6 @@ from django.contrib.auth.decorators import login_required
 from .models import Review, Comment, Rating
 from .forms import ReviewForm, CommentForm
 
-
 def index(request):
     reviews = Review.objects.order_by("-pk")
     context = {

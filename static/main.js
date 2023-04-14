@@ -22,10 +22,8 @@ const handleStarSelect = (size) =>{
     }
   }
 }
-
-handleStarSelect(2)
-
-console.log(one)
+// handleStarSelect(2)
+// console.log(one)
 
 const handleSelect = (selection) => {
   switch(selection){
@@ -97,23 +95,26 @@ const getNumericValue = (stringValue) =>{
   }
   return numericValue
 }
+const arr = [one,two,three,four,five]
 
-if (one) {
-  const arr = [one,two,three,four,five]
-
-  arr.forEach(item=>item.addEventListener('mouseover', (event)=>{
-    handleSelect(event.target.id)
-  }))
-
-  arr.forEach(item => item.addEventListener('click', (event)=> {
-    // alert('clicked')
-    const val = event.target.id
-    // alert(val)
-    form.addEventListener('submit', (event) => {
-      event.preventDefault()
-      const id = event.target.id
-      console.log(id)
-      const val_num  = getNumericValue(val)
-    })
-  }))
-}
+arr.forEach(item=>item.addEventListener('mouseover', (event)=>{
+  handleSelect(event.target.id)
+}))
+// arr.forEach(item => item.addEventListener('click', (event)=> {
+//   // alert('clicked')
+//   
+//   // alert(val)
+//   form.addEventListener('submit', (event) => {
+//     event.preventDefault()
+//     const id = event.target.id
+//     // console.log(id)
+//     const val_num  = getNumericValue(val)
+//     console.log(val_num)
+//   })
+// }))
+form.addEventListener('submit', (event) => {
+  event.preventDefault()
+  const val = event.target.id
+  const val_num  = getNumericValue(val)
+  console.log(val_num)
+})
