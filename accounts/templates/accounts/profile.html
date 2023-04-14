@@ -1,22 +1,79 @@
 {% extends 'base.html' %}
 {% block title %}회원정보{% endblock title %}
-{% block style %}{% endblock style %}
+{% block style %}
+
+.heading {
+  padding: 10px 15px 10px 25px;
+  float: initial;
+  border-radius: 0;
+  clear: left;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  line-height: 21px;
+}
+
+.heading::before {
+  background-color: #FA320A;
+  content: ' ';
+  min-width: 20px;
+  height: 20px;
+  position: absolute;
+  left: 0;
+}
+
+.heading-after::after {
+  position: absolute;
+  margin-left: 11px;
+  width: 100%;
+  background-color: #FA320A;
+  min-width: 20px;
+  height: 20px;
+  content: ' ';
+  box-sizing: border-box;
+}
+
+{% endblock style %}
 {% block body %}
-<div class="container w-50 m-auto">
-  <h1 class="text-center">회원정보</h1>
-  {{ user.username }}<br>
-  {{ user.email }}<br>
-  <hr>
-  {% for review in reviews %}
-  제목: {{ review.title }}<br>
-  내용: {{ review.content }}
-  <hr>
-  {% endfor %}
-  <div class="d-flex justify-content-between">
-    <a href="{% url 'reviews:index' %}" class="btn btn-sm btn-outline-danger">뒤로가기</a>
-    <div>
-      <a href="{% url 'accounts:password' %}" class="btn btn-sm btn-outline-warning me-1">비밀번호 변경</a>
-      <a href="{% url 'accounts:update' %}" class="btn btn-sm btn-outline-primary">회원정보 수정</a>
+<div class="container d-flex mt-3">
+  <div class="d-flex flex-column">
+    <section class="d-flex flex-column">
+      <p onclick="location.href='{% url 'accounts:profile' user.pk %}'" style="cursor: pointer;" class="m-0">{{ user.last_name }} {{ user.first_name }}</p>
+      {% if request.user == user %}
+      <p onclick="location.href='{% url 'accounts:update' %}'" style="cursor: pointer;" class="m-0">회원정보 수정</p>
+      {% endif %}
+      <p onclick="location.href='{% url 'accounts:profile' user.pk %}'" style="cursor: pointer;" class="m-0">회원정보</p>
+    </section>
+    <hr>
+    <section>
+      <h3 class="heading align-middle">ABOUT</h3>
+      <table class="table">
+        <tbody>
+          <tr>
+            <th scope="row">아이디</th>
+            <td>{{ user.username }}</td>
+          </tr>
+          <tr>
+            <th scope="row">이메일</th>
+            <td>{{ user.email }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </div>
+  <div>
+    <nav class="nav nav-pills flex-column flex-sm-row">
+      <a class="flex-sm-fill text-sm-center nav-link active" aria-current="page" href="#">Active</a>
+      <a class="flex-sm-fill text-sm-center nav-link" href="#">Longer nav link</a>
+      <a class="flex-sm-fill text-sm-center nav-link" href="#">Link</a>
+      <a class="flex-sm-fill text-sm-center nav-link disabled">Disabled</a>
+    </nav>
+    <div class="mt-2">
+      <h3 class="heading heading-after align-middle">REVIEW HISTORY</h3>
+      {% for review in reviews %}
+      제목: {{ review.title }}<br>
+      내용: {{ review.content }}
+      {% endfor %}
     </div>
   </div>
 </div>
