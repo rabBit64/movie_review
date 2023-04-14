@@ -24,7 +24,7 @@
   </head>
   <body>
     <div class="header-wrap">
-      <img alt="Rotten Tomatoes" src="{% static 'logo2.png' %}" id="Rotten-logo">
+      <a href="{% url 'reviews:index' %}"><img alt="Rotten Tomatoes" src="{% static 'logo2.png' %}" id="Rotten-logo"></a>
       <ul id="account-button">
         {% if request.user.is_authenticated %}
           <li id="login-user-name">
